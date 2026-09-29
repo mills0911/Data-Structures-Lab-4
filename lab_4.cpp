@@ -6,7 +6,7 @@
 int main(){
     int size{199};
     /*
-    Input
+    Input hashtable.add error checks for a few things
     */
     hash_table hashTable(size);
     hashTable.add(5);
@@ -16,5 +16,8 @@ int main(){
     hashTable.add(5);
     hashTable.add(57);
 
-    hashTable
+    /*
+    need to make a output section here and a retrival in hash_table.cpp
+    */
+    
 }
