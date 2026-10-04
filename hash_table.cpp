@@ -19,7 +19,7 @@ public:
         if ((size >= MAX_SIZE) || (size <= MIN_SIZE)) // check range 
             throw std::invalid_argument("Hash table size must be in range of 101-211");
         for (int i{2}; i < size; i++)  // check for prime
-            if ((size % i) == 0 ) throw std::invalid_argument(" Hash table needs to be a Prime Number"); 
+            if ((size % i) == 0 ) throw std::invalid_argument("Hash table needs to be a Prime Number"); 
 
         // Creation
         this->size = size;
@@ -38,4 +38,7 @@ public:
         arrayOfLL[(std::abs(numberToAdd) % size)].append(numberToAdd); 
     }
     
+    int frequency(int num){ // Get Frequence Given index
+        return arrayOfLL[(std::abs(num) % size)].getSize();
+    }
 };

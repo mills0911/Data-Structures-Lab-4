@@ -15,6 +15,7 @@ int main(){
     hashTable.add(55);
     hashTable.add(5);
     hashTable.add(57);
+    std::cout <<"Frequency at 5 is: "<< hashTable.frequency(5) << std::endl;
 
     /*
     need to make a output section here and a retrival in hash_table.cpp

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 #include "node.h"
-class LinkedList {
+class LinkedList { //singley linked list
 private:
     Node* head;
     Node* tail;
@@ -9,7 +9,12 @@ private:
 public:
     // Default Constructor no initial elements
     LinkedList() : head(nullptr), tail(nullptr), size(0){}
-    
+    // Deconstructor
+    ~LinkedList() {
+        MakeEmpty();
+    }
+    // Functions
+    int getSize(){return size;};
     void append(int num){    // ADD TO BACK
         Node* node = new Node(num);
 
@@ -23,22 +28,29 @@ public:
         }
         size++;
     }
-
-    Node* at(int element){ // Search given element return pointer
-        try {
-            if (element < 0 || element >= size) {
-                throw std::runtime_error("Out of range of linked list");
-            }
-
-            Node* current = head;
-            for (int currElement = 0; currElement < element; currElement++) {
-                current = current->next;
-            }
-            return current;
+    
+    void MakeEmpty(){ 
+        Node* temp;
+        while (head != nullptr){
+            temp = head;
+            head = head->next;
+            delete temp;
         }
-        catch (const std::runtime_error& e) {
-            std::cerr << e.what() << '\n';
-            throw;
-        }
+        size = 0;
+        tail = nullptr;
     }
+
+    Node* at(int index){ // Search given index return pointer
+        if (index < 0 || index >= size) {
+            throw std::runtime_error("Out of range of linked list");
+        }
+
+        Node* current = head;
+        for (int currIndex = 0; currIndex < index; currIndex++) {
+            current = current->next;
+        }
+        return current;
+    
+    }
+
 };
