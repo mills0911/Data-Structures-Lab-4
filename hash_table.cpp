@@ -1,5 +1,4 @@
 #include "linked_list.h"
-#include <iostream>
 #include <cstdlib> // for abs
 class hash_table{ // Array of linked lists
 private:

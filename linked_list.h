@@ -1,3 +1,5 @@
+#include <iostream>
+#include <stdexcept>
 #include "node.h"
 class LinkedList {
 private:
@@ -10,7 +12,6 @@ public:
     
     void append(int num){    // ADD TO BACK
         Node* node = new Node(num);
-        node->next = nullptr;
 
         if (size == 0) {
             head = node;
