@@ -41,4 +41,8 @@ public:
     int frequency(int num){ // Get Frequence Given index
         return arrayOfLL[(std::abs(num) % size)].getSize();
     }
+
+    int getSize() const {
+        return this->size;
+    }
 };
