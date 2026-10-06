@@ -10,7 +10,7 @@ private:
         MAX_ADD_SIZE = 10000,
         MIN_ADD_SIZE = -10000;
     // Hash table
-    LinkedList* arrayOfLL; 
+    LinkedList** buckets; //list of ptrs
 public:
     // Creation setting size / allocated memory
     hash_table(int size){
@@ -23,22 +23,44 @@ public:
 
         // Creation
         this->size = size;
-        arrayOfLL = new LinkedList[size]; 
-        
+        buckets = new LinkedList*[size]{}; // buckets start as null
     }
     // Destructor
     ~hash_table() {
-        delete[] arrayOfLL;
+        for (int i =0; i<size; i++)
+            delete buckets[i];
+        delete[] buckets;
     }
+
     void add(int numberToAdd){
         if ((numberToAdd > MAX_ADD_SIZE) || (numberToAdd < MIN_ADD_SIZE)) 
             throw std::invalid_argument("Number be added is out of range of instructions");
-        
-        // Add the corrisponding linked list 
-        arrayOfLL[(std::abs(numberToAdd) % size)].append(numberToAdd); 
+        //calculate idx once 
+        int idx = (std::abs(numberToAdd) % size);
+        //check if bucket is aleady a LL
+        if (buckets[idx] == nullptr){ 
+            buckets[idx] = new LinkedList(numberToAdd); 
+        }
+        else{ 
+            buckets[idx]->append(numberToAdd);
+        }
     }
-    
-    int frequency(int num){ // Get Frequence Given index
-        return arrayOfLL[(std::abs(num) % size)].getSize();
+
+    int bucketSize(int num){ // Get size Given index
+        // Get bucket to check 
+        const LinkedList* currBucket = buckets[(std::abs(num) % size)];
+        if (currBucket == nullptr) 
+            return 0;
+        else 
+            return currBucket->getSize();
+    }
+    int frequency(int num){ // get Freq Given index
+        // Get bucket to check 
+        const LinkedList* currBucket = buckets[(std::abs(num) % size)];
+        if (currBucket == nullptr) 
+            return 0;
+        else 
+            return currBucket->count(num);
+
     }
 };
