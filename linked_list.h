@@ -33,10 +33,10 @@ public:
         int count = 0;
         for (Node* curr = head; curr != nullptr; curr=curr->next){
             if (curr->data == num){
-                count++
+                count++;
             }
         }
-        return count
+        return count;
     }
     
     void MakeEmpty(){ 

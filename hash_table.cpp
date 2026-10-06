@@ -63,4 +63,8 @@ public:
             return currBucket->count(num);
 
     }
+
+    int getSize() const {
+        return this->size;
+    }
 };
