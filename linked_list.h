@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 #include "node.h"
-class LinkedList { //singley linked list
+class LinkedList { //singly linked list
 private:
     Node* head;
     Node* tail;
@@ -17,7 +17,8 @@ public:
     }
     // Functions
     int getSize() const { return size; };
-    void append(int num){    // ADD TO BACK
+
+    void append(const int &num){    // ADD TO BACK
         Node* node = new Node(num);
         if (size == 0) {
             head = node;
