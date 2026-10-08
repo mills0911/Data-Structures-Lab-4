@@ -66,30 +66,77 @@ public:
             return currBucket->count(num);
     }
 
-    void output(const int input[]) {
+    Vector<int> userInputs() {
 
-        Vector<int> uniqueNums; // would have same # as inputs
-        bool unique;
+        std::cout << "Enter numbers (-1 to end): ";
+        Vector<int> userInputs; // vector of user inputs
+        int number; // the number user enters
+
+        std::cin >> number;
+
+        // input stops when it is -1
+        // oh my god please work for the love of GOD.
+
+        while (number != -1) {
+            // size check (stops from adding any more)
+            if (userInputs.size() > 1000) {
+                std::cout << "Vector reached max size; will process previous data" << std::endl;
+                break;
+            }
+            if (std::cin.fail()) {
+                std::cin.clear();
+                std::cin.ignore(1000,'\n');
+                std::cout << "Invalid integer, re-enter: ";
+                std::cin >> number;
+            }
+            // validity check
+            if (number < MIN_ADD_SIZE || number > MAX_ADD_SIZE) {
+                std::cout << "Out of range integer, re-enter: ";
+                std::cin >> number;
+            } else {
+                // if valid input, insert as usual
+                add(number);
+                userInputs.pushback(number);
+                std::cin >> number;
+            }
+            //std::cin >> number;
+        }
+        if (userInputs.isEmpty()) {
+            std::cerr << "Vector is empty, cannot process information" << std::endl;
+        }
+        std::cin.ignore();
+        return userInputs;
+
+    }
+
+    void output(Vector<int> &inputVector) {
+
+        // display user's inputs
+        std::cout << "Your inputs:" << std::endl;
+        for (int i = 0; i < inputVector.size() - 1; i++) {
+            std::cout << inputVector.at(i) << ", ";
+        }
+        std::cout << inputVector.at(inputVector.size() - 1) << std::endl;
+
+        Vector<int> uniqueNums; // will hold extracted UNIQUE numbers from input (no repeats)
 
         // make vector with only unique elements
         // for every element in input
-        for (int i = 0; i < 7; i++) {
-            unique = true;
+        for (int i = 0; i < inputVector.size(); i++) {
+            bool unique = true;
             // compare input element against every uniqueNums element
             for (int j = 0; j < uniqueNums.size(); j++) {
                 // if one matches --> breaks out, goes to next input[i]
-                if (input[i] == uniqueNums.at(j)) {
+                if (inputVector.at(i) == uniqueNums.at(j)) {
                     unique = false;
                     break;
                 }
             }
             // only runs if # appears once in input array
             if (unique) {
-                uniqueNums.pushback(input[i]);
+                uniqueNums.pushback(inputVector.at(i));
             }
         }
-
-        uniqueNums.display(); // just for testing
 
         // use uniqueNums vector to see each input's frequency
         for (int i = 0; i < uniqueNums.size(); i++) {

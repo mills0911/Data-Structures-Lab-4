@@ -42,6 +42,12 @@ public:
         return length;
     }
 
+    bool isEmpty() const {
+        if (length == 0)
+            return true;
+        return false;
+    }
+
     void display() const {
         if (length == 0) {
             std::cout << "Vector is empty" << std::endl;
