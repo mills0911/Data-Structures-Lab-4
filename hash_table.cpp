@@ -5,18 +5,19 @@
 class hash_table{ // Array of linked lists
 private:
     int size;
-    /*Restrains*/
+    /*Restraints*/
     static constexpr int 
         MAX_SIZE = 211,
         MIN_SIZE = 101,
         MAX_ADD_SIZE = 10000,
         MIN_ADD_SIZE = -10000;
     // Hash table
-    LinkedList** buckets; //list of ptrs
+    LinkedList** buckets; // list of ptrs
 public:
+
     // Creation setting size / allocated memory
     hash_table(const int &size){
-        if (size <= 0) // check if >0
+        if (size <= 0) // check if > 0
             throw std::invalid_argument("Hash table size must be greater than 0");
         if ((size >= MAX_SIZE) || (size <= MIN_SIZE)) // check range 
             throw std::invalid_argument("Hash table size must be in range of 101-211");
@@ -27,6 +28,7 @@ public:
         this->size = size;
         buckets = new LinkedList*[size]{}; // array of pointers; buckets start as null
     }
+
     // Destructor
     ~hash_table() {
         for (int i{0}; i < size; i++)
@@ -34,30 +36,31 @@ public:
         delete[] buckets;
     }
 
-    void add(int numberToAdd){
+    void add(int numberToAdd) {
         // validation
         if ((numberToAdd > MAX_ADD_SIZE) || (numberToAdd < MIN_ADD_SIZE))
             throw std::invalid_argument("Number to be added is out of range of instructions");
-        //calculate idx once
+        // calculate index once
         int idx = (std::abs(numberToAdd) % size);
-        //check if bucket is already a LL
+        // check if bucket is already a LL
         if (buckets[idx] == nullptr) {
-            buckets[idx] = new LinkedList(numberToAdd); // initialize + add at same time
+            buckets[idx] = new LinkedList(numberToAdd); // initialize + add value
         }
         else {
+            // append to existing LL
             buckets[idx]->append(numberToAdd);
         }
     }
 
-    int bucketSize(const int &num){ // Get size of LL Given index
+    int bucketSize(const int &num){ // Get size of LL given number
         // Get bucket to check
         const LinkedList* currBucket = buckets[(std::abs(num) % size)];
         if (currBucket == nullptr)
             return 0;
         else
-            return currBucket->getSize(); // LL function, not hash function
+            return currBucket->getSize(); // LL function
     }
-    int frequency(const int &num){ // get Freq of a number given index
+    int frequency(const int &num){ // get freq of a number
         // Get bucket to check
         const LinkedList* currBucket = buckets[(std::abs(num) % size)];
         if (currBucket == nullptr)
@@ -67,17 +70,17 @@ public:
     }
 
     Vector<int> userInputs() {
-
         std::cout << "Enter numbers (-1 to end): ";
         Vector<int> userInputs; // vector of user inputs
-        int number; // the number user enters
+        int number;             // the number user enters
+        int numberInputs = 0;   // how many inputs user entered
 
-        std::cin >> number;
+        std::cin >> number; // start input
 
         // input stops when it is -1
         while (number != -1) {
             // size check (stops from adding any more)
-            if (userInputs.size() > 1000) {
+            if (numberInputs >= 1000) {
                 std::cout << "Vector reached max size; will process previous data" << std::endl;
                 break;
             }
@@ -97,12 +100,13 @@ public:
                 // determine whether to push to vector based on frequency
                 if (buckets[(std::abs(number) % size)]->count(number) == 1)
                     userInputs.pushback(number);
+                numberInputs++;
             } std::cin >> number; // reinput
         }
-        if (userInputs.isEmpty()) {
+        if (userInputs.isEmpty()) { // if user starts by putting -1
             throw std::out_of_range("Vector is empty, cannot process information");
         }
-        std::cin.ignore(); // delete remaining buffer
+
         return userInputs;
     }
 
