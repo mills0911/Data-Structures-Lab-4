@@ -75,73 +75,41 @@ public:
         std::cin >> number;
 
         // input stops when it is -1
-        // oh my god please work for the love of GOD.
-
         while (number != -1) {
             // size check (stops from adding any more)
             if (userInputs.size() > 1000) {
                 std::cout << "Vector reached max size; will process previous data" << std::endl;
                 break;
             }
+            // if input can't be processed as integer (ex. string)
             if (std::cin.fail()) {
                 std::cin.clear();
                 std::cin.ignore(1000,'\n');
                 std::cout << "Invalid integer, re-enter: ";
-                std::cin >> number;
-            }
-            // validity check
+            } else
+            // bounds check
             if (number < MIN_ADD_SIZE || number > MAX_ADD_SIZE) {
+                std::cin.clear();
                 std::cout << "Out of range integer, re-enter: ";
-                std::cin >> number;
             } else {
-                // if valid input, insert as usual
-                add(number);
-                userInputs.pushback(number);
-                std::cin >> number;
-            }
-            //std::cin >> number;
+                std::cin.clear();
+                add(number); // add to hash table
+                // determine whether to push to vector based on frequency
+                if (buckets[(std::abs(number) % size)]->count(number) == 1)
+                    userInputs.pushback(number);
+            } std::cin >> number; // reinput
         }
         if (userInputs.isEmpty()) {
-            std::cerr << "Vector is empty, cannot process information" << std::endl;
+            throw std::out_of_range("Vector is empty, cannot process information");
         }
-        std::cin.ignore();
+        std::cin.ignore(); // delete remaining buffer
         return userInputs;
-
     }
 
     void output(Vector<int> &inputVector) {
-
-        // display user's inputs
-        std::cout << "Your inputs:" << std::endl;
-        for (int i = 0; i < inputVector.size() - 1; i++) {
-            std::cout << inputVector.at(i) << ", ";
-        }
-        std::cout << inputVector.at(inputVector.size() - 1) << std::endl;
-
-        Vector<int> uniqueNums; // will hold extracted UNIQUE numbers from input (no repeats)
-
-        // make vector with only unique elements
-        // for every element in input
+        // use user input vector to see each input's frequency
         for (int i = 0; i < inputVector.size(); i++) {
-            bool unique = true;
-            // compare input element against every uniqueNums element
-            for (int j = 0; j < uniqueNums.size(); j++) {
-                // if one matches --> breaks out, goes to next input[i]
-                if (inputVector.at(i) == uniqueNums.at(j)) {
-                    unique = false;
-                    break;
-                }
-            }
-            // only runs if # appears once in input array
-            if (unique) {
-                uniqueNums.pushback(inputVector.at(i));
-            }
+            std::cout << "Value: " << inputVector.at(i) << " -> Frequency: " << frequency(inputVector.at(i)) << std::endl;
         }
-
-        // use uniqueNums vector to see each input's frequency
-        for (int i = 0; i < uniqueNums.size(); i++) {
-            std::cout << "Value: " << uniqueNums.at(i) << " -> Frequency: " << frequency(uniqueNums.at(i)) << std::endl;
-        }
-
     }
 };
