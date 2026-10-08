@@ -101,7 +101,10 @@ public:
                 if (buckets[(std::abs(number) % size)]->count(number) == 1)
                     userInputs.pushback(number);
                 numberInputs++;
-            } std::cin >> number; // reinput
+            }            
+            // reinput
+            std::cout << "Enter number: ";
+            std::cin >> number; 
         }
         if (userInputs.isEmpty()) { // if user starts by putting -1
             throw std::out_of_range("Vector is empty, cannot process information");
@@ -112,7 +115,8 @@ public:
 
     void output(Vector<int> &inputVector) {
         // use user input vector to see each input's frequency
-        for (int i = 0; i < inputVector.size(); i++) {
+        std::cout << "------HASH TABLE FREQUENCIES------\n";
+                for (int i = 0; i < inputVector.size(); i++) {
             std::cout << "Value: " << inputVector.at(i) << " -> Frequency: " << frequency(inputVector.at(i)) << std::endl;
         }
     }
