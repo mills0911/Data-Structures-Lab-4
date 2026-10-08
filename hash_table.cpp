@@ -70,7 +70,7 @@ public:
     }
 
     Vector<int> userInputs() {
-        std::cout << "Enter numbers (-1 to end): ";
+        std::cout << "Enter number (-1 to end): ";
         Vector<int> userInputs; // vector of user inputs
         int number;             // the number user enters
         int numberInputs = 0;   // how many inputs user entered
@@ -103,7 +103,7 @@ public:
                 numberInputs++;
             }            
             // reinput
-            std::cout << "Enter number: ";
+            std::cout << "Enter number (-1 to end): ";
             std::cin >> number; 
         }
         if (userInputs.isEmpty()) { // if user starts by putting -1
@@ -115,7 +115,7 @@ public:
 
     void output(Vector<int> &inputVector) {
         // use user input vector to see each input's frequency
-        std::cout << "------HASH TABLE FREQUENCIES------\n";
+        std::cout << std::endl << "------HASH TABLE FREQUENCIES------\n";
                 for (int i = 0; i < inputVector.size(); i++) {
             std::cout << "Value: " << inputVector.at(i) << " -> Frequency: " << frequency(inputVector.at(i)) << std::endl;
         }
